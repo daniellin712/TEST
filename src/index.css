@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-tech-bg: #050508;
+  --color-tech-primary: #00f2ff;
+  --color-tech-accent: #7000ff;
+  --color-tech-card: rgba(255, 255, 255, 0.03);
+  --color-tech-border: rgba(255, 255, 255, 0.08);
+  --color-tech-text: #f8fafc;
+  --color-tech-muted: #94a3b8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans bg-tech-bg text-tech-text antialiased selection:bg-tech-primary/30 selection:text-white;
+  }
+}
+
+.tech-card {
+  @apply bg-tech-card border border-tech-border backdrop-blur-xl rounded-2xl transition-all duration-300;
+}
+
+.tech-card:hover {
+  @apply border-tech-primary/40 bg-white/5 shadow-[0_0_40px_-15px_rgba(0,242,255,0.2)];
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+}
+
+.btn-tech {
+  @apply px-8 py-3 bg-tech-primary text-black rounded-full font-display font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,242,255,0.4)];
+}
+
+.btn-tech-outline {
+  @apply px-8 py-3 bg-transparent border border-tech-border text-tech-text rounded-full font-display font-bold uppercase tracking-wider transition-all hover:border-tech-primary hover:text-tech-primary active:scale-95;
+}
+
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 10;
+  background: linear-gradient(0deg, rgba(0, 242, 255, 0) 0%, rgba(0, 242, 255, 0.05) 50%, rgba(0, 242, 255, 0) 100%);
+  opacity: 0.1;
+  position: absolute;
+  bottom: 100%;
+  animation: scan 8s linear infinite;
+}
+
+@keyframes scan {
+  0% { bottom: 100%; }
+  100% { bottom: -100px; }
+}
