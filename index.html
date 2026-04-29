@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="林彥良 (Lin Yen-Liang) 的個人履歷 - 硬體測試與訊號分析專家" />
+    <meta name="keywords" content="林彥良, 履歷, 硬體測試, 訊號分析, 韌體開發, STM32, 無人機" />
+    <title>林彥良 | 專業個人履歷</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tech: {
+                            bg: '#030711',
+                            primary: '#00f2ff',
+                            accent: '#7000ff',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            text: '#f8fafc',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/css">
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.05), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .tech-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tech-card:hover {
+            border-color: rgba(0, 242, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.05);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+        }
+        .btn-tech {
+            @apply flex items-center gap-3 px-8 py-4 bg-tech-primary text-black font-mono font-bold uppercase tracking-widest rounded-full hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(0,242,255,0.3)];
+        }
+        .btn-tech-outline {
+            @apply flex items-center gap-3 px-8 py-4 bg-transparent border border-tech-primary/30 text-tech-primary font-mono font-bold uppercase tracking-widest rounded-full hover:bg-tech-primary/10 transition-all;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-tech-bg text-tech-text selection:bg-tech-primary/30 min-h-screen relative overflow-x-hidden">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-tech-primary/5 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-tech-accent/5 rounded-full blur-[120px]"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div class="scanline"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-8">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="relative">
+                    <div class="w-10 h-10 bg-tech-primary/10 rounded-lg flex items-center justify-center border border-tech-primary/30 group-hover:border-tech-primary transition-all">
+                        <span class="text-tech-primary font-display font-bold text-lg">L</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-bold text-lg tracking-widest text-white group-hover:text-tech-primary transition-colors uppercase">Lin Yen-Liang</span>
+                    <span class="text-[8px] font-mono tracking-[0.3em] text-tech-muted uppercase">Hardware x Firmware</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#home" class="nav-link text-[10px] font-mono tracking-[0.2em] uppercase text-tech-muted hover:text-white transition-all relative group">首頁</a>
+                <a href="#about" class="nav-link text-[10px] font-mono tracking-[0.2em] uppercase text-tech-muted hover:text-white transition-all relative group">關於</a>
+                <a href="#experience" class="nav-link text-[10px] font-mono tracking-[0.2em] uppercase text-tech-muted hover:text-white transition-all relative group">經歷</a>
+                <a href="#skills" class="nav-link text-[10px] font-mono tracking-[0.2em] uppercase text-tech-muted hover:text-white transition-all relative group">技能</a>
+                <a href="#projects" class="nav-link text-[10px] font-mono tracking-[0.2em] uppercase text-tech-muted hover:text-white transition-all relative group">作品</a>
+                <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="px-6 py-2 bg-transparent border border-tech-primary/30 text-tech-primary rounded-full text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-tech-primary hover:text-black transition-all">Connect</button>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="menu-toggle" class="md:hidden text-tech-text">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-tech-bg pt-32 px-10 hidden md:hidden">
+        <div class="flex flex-col gap-10">
+            <a href="#home" class="mobile-nav-link text-4xl font-display font-bold text-white uppercase hover:text-tech-primary">首頁</a>
+            <a href="#about" class="mobile-nav-link text-4xl font-display font-bold text-white uppercase hover:text-tech-primary">關於</a>
+            <a href="#experience" class="mobile-nav-link text-4xl font-display font-bold text-white uppercase hover:text-tech-primary">經歷</a>
+            <a href="#skills" class="mobile-nav-link text-4xl font-display font-bold text-white uppercase hover:text-tech-primary">技能</a>
+            <a href="#projects" class="mobile-nav-link text-4xl font-display font-bold text-white uppercase hover:text-tech-primary">作品</a>
+        </div>
+    </div>
+
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <header id="home" class="pt-32 pb-20 md:pt-64 md:pb-48 px-6 relative reveal">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20">
+                <div class="flex-1 text-center md:text-left">
+                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-10 overflow-hidden relative group">
+                        <div class="w-2 h-2 bg-tech-primary rounded-full animate-pulse shadow-[0_0_10px_#00f2ff]"></div>
+                        <p class="text-[10px] font-mono uppercase tracking-[0.2em] text-tech-primary">Status: Open for opportunities</p>
+                    </div>
+                    
+                    <h1 class="text-6xl md:text-8xl font-display font-bold leading-none mb-8 tracking-tighter">
+                        HELLO. I'M <br />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-tech-primary via-white to-tech-accent glow-text">
+                            LIN YEN-LIANG
+                        </span>
+                    </h1>
+                    
+                    <div class="text-lg md:text-xl text-tech-muted max-w-xl mb-12 leading-relaxed font-light font-mono">
+                        <p class="mb-2">&gt; 硬體測試與訊號分析 | 韌體開發工程師</p>
+                        <div class="flex items-center gap-4 opacity-60 text-xs">
+                            <span class="flex items-center gap-1"><i data-lucide="activity" class="w-3 h-3"></i> Hardware Validation</span>
+                            <span class="flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> Signal Analysis</span>
+                            <span class="flex items-center gap-1"><i data-lucide="cpu" class="w-3 h-3"></i> Firmware Engineering</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-6 justify-center md:justify-start">
+                        <button onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})" class="btn-tech">View Stack</button>
+                        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="btn-tech-outline">Get in Touch</button>
+                    </div>
+                </div>
+
+                <div class="relative w-full max-w-[450px] md:w-[450px] aspect-square">
+                    <div class="absolute inset-0 border border-tech-primary/20 rounded-full animate-[spin_30s_linear_infinite]"></div>
+                    <div class="absolute inset-4 border border-tech-accent/20 rounded-full animate-[spin_20s_linear_infinite_reverse]"></div>
+                    <div class="absolute inset-12 rounded-[60px] overflow-hidden border border-tech-border tech-card group">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" alt="Profile" class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000">
+                    </div>
+                    <div class="absolute top-1/4 -left-6 p-4 rounded-2xl tech-card border-tech-primary/40 animate-bounce shadow-lg shadow-tech-primary/10">
+                        <i data-lucide="cpu" class="text-tech-primary"></i>
+                    </div>
+                    <div class="absolute bottom-1/4 -right-6 p-4 rounded-2xl tech-card border-tech-accent/40 animate-bounce [animation-delay:1s] shadow-lg shadow-tech-accent/10">
+                        <i data-lucide="activity" class="text-tech-accent"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col items-center mt-32 opacity-40 cursor-pointer group" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+                <span class="text-[10px] font-mono tracking-widest uppercase mb-2 group-hover:text-tech-primary transition-colors">INIT_SEQUENCE_LOAD</span>
+                <i data-lucide="chevron-down" class="text-tech-primary w-4 h-4"></i>
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 px-6 border-y border-tech-border bg-white/[0.01] reveal">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-20 items-start">
+                    <div class="w-full md:w-1/3">
+                        <h2 class="text-4xl font-display font-bold mb-4 flex items-center gap-4">
+                            <span class="text-tech-primary opacity-50 font-mono text-xl">01/</span> 核心概論
+                        </h2>
+                        <div class="h-[2px] w-12 bg-tech-primary mb-10"></div>
+                        <div class="space-y-8">
+                            <div>
+                                <p class="text-[10px] font-mono text-tech-primary uppercase tracking-[0.2em] mb-2">IDENTIFIER</p>
+                                <p class="text-xl font-display font-bold text-white uppercase tracking-tight">林彥良 (Lin Yen-Liang)</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-mono text-tech-primary uppercase tracking-[0.2em] mb-2">SECTOR_LOC</p>
+                                <p class="text-xl font-display font-bold text-white uppercase tracking-tight">桃園市平鎮區</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-12">
+                        <p class="text-2xl md:text-3xl text-white leading-tight font-light tracking-tight max-w-2xl font-display">
+                            擁有硬體測試、訊號分析與新產品驗證經驗，曾主導國營企業與國外產品之「破億元」大型專案驗收。具備強烈的學習動能，自修投入微處理器與韌體領域 (STM32/C語言)，致力於將除錯邏輯結合系統整合能力。
+                        </p>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="p-8 tech-card group">
+                                <h3 class="text-4xl font-display font-bold text-tech-primary mb-2 tracking-tighter">5+</h3>
+                                <p class="text-[10px] uppercase font-mono tracking-widest text-tech-muted group-hover:text-white transition-colors">TOTAL_EXP</p>
+                            </div>
+                            <div class="p-8 tech-card group">
+                                <h3 class="text-4xl font-display font-bold text-tech-accent mb-2 tracking-tighter">20+</h3>
+                                <p class="text-[10px] uppercase font-mono tracking-widest text-tech-muted group-hover:text-white transition-colors">PROJECTS_DONE</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-32 px-6 reveal">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-6 mb-20">
+                    <h2 class="text-4xl font-display font-bold tracking-tight">歷史進程</h2>
+                    <div class="h-[1px] flex-1 bg-tech-border"></div>
+                    <span class="text-tech-primary font-mono text-xs tracking-widest">02 // TIMELINE_LOGS</span>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-20">
+                    <div>
+                        <h3 class="text-[10px] font-mono uppercase tracking-[0.3em] mb-12 text-tech-muted flex items-center gap-3 font-bold">
+                            <i data-lucide="briefcase" class="w-4 h-4 text-tech-primary"></i> WORK_HISTORY
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="tech-card p-8 group relative overflow-hidden">
+                                <span class="text-[10px] font-mono text-tech-primary mb-2 block uppercase">2023/06 - 2025/05</span>
+                                <h4 class="font-display font-bold text-xl text-white mb-1">巧力工業股份有限公司 (CIC)</h4>
+                                <p class="text-sm text-tech-accent font-medium mb-6 font-mono">品保副組長 / 品質工程師</p>
+                                <p class="text-sm text-tech-muted leading-relaxed">主導 150kV 高壓雷擊與全負載溫升極限電性試驗。建立全新 SOP 提升測試效能。</p>
+                            </div>
+                            <div class="tech-card p-8 group">
+                                <span class="text-[10px] font-mono text-tech-primary mb-2 block uppercase">2021/01 - 2021/02</span>
+                                <h4 class="font-display font-bold text-xl text-white mb-1">聯新國際醫院</h4>
+                                <p class="text-sm text-tech-accent font-medium mb-6 font-mono">高級助理工程師</p>
+                                <p class="text-sm text-tech-muted leading-relaxed">負責疫情期間大門管控與第一線溝通，協助主管交辦行政事務。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-[10px] font-mono uppercase tracking-[0.3em] mb-12 text-tech-muted flex items-center gap-3 font-bold">
+                            <i data-lucide="graduation-cap" class="w-4 h-4 text-tech-accent"></i> ACADEMIC_RECORDS
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="tech-card p-8">
+                                <span class="text-[10px] font-mono text-tech-accent mb-2 block uppercase">2018 - 2022</span>
+                                <h4 class="font-display font-bold text-xl text-white mb-1">國立高雄科技大學</h4>
+                                <p class="text-sm text-tech-muted font-mono uppercase">海事資訊科技系 四技畢業</p>
+                            </div>
+                            <div class="tech-card p-8">
+                                <span class="text-[10px] font-mono text-tech-accent mb-2 block uppercase">2015 - 2018</span>
+                                <h4 class="font-display font-bold text-xl text-white mb-1">國立內壢高中</h4>
+                                <p class="text-sm text-tech-muted font-mono uppercase">普通科 畢業</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-32 px-6 reveal">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-24">
+                    <p class="text-tech-primary font-mono text-[10px] uppercase tracking-[0.4em] mb-4 font-bold">Technical Proficiency</p>
+                    <h2 class="text-6xl font-display font-bold tracking-tight">架構與指令集</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Hardware -->
+                    <div class="p-10 tech-card group">
+                        <h3 class="text-[10px] uppercase font-mono tracking-[0.2em] mb-10 font-bold text-tech-muted flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-tech-primary shadow-[0_0_8px_#00f2ff]"></span> HARDWARE_VALIDATION
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between"><span class="text-sm">示波器訊號擷取</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">雜訊分析</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">150kV 高壓雷擊</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">IEEE/IEC 國際標準</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                        </div>
+                    </div>
+                    <!-- Firmware -->
+                    <div class="p-10 tech-card group">
+                        <h3 class="text-[10px] uppercase font-mono tracking-[0.2em] mb-10 font-bold text-tech-muted flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-tech-accent shadow-[0_0_8px_#7000ff]"></span> FIRMWARE_ENGINEERING
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between"><span class="text-sm">C 語言 (開發)</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">STM32 / HAL 庫</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">嵌入式軟體基礎</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">系統整合思考</span><span class="text-[8px] font-mono text-tech-muted">READY</span></div>
+                        </div>
+                    </div>
+                    <!-- Licenses -->
+                    <div class="p-10 tech-card group">
+                        <h3 class="text-[10px] uppercase font-mono tracking-[0.2em] mb-10 font-bold text-tech-muted flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#fff]"></span> MASTER_LICENSES
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between"><span class="text-sm">無人機專業證照</span><span class="text-[8px] font-mono text-tech-muted">VALID</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">動力小船執照</span><span class="text-[8px] font-mono text-tech-muted">VALID</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">AutoCAD 認證</span><span class="text-[8px] font-mono text-tech-muted">VALID</span></div>
+                            <div class="flex items-center justify-between"><span class="text-sm">堆高機技術士</span><span class="text-[8px] font-mono text-tech-muted">VALID</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-32 px-6 bg-white/[0.01] border-y border-tech-border reveal">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-6">
+                    <div>
+                        <p class="text-tech-accent font-mono text-[10px] uppercase tracking-[0.4em] mb-4 font-bold">Case Studies</p>
+                        <h2 class="text-5xl font-display font-bold tracking-tight italic">特殊任務檔案</h2>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="tech-card p-5 group hover:-translate-y-2 transition-all">
+                        <div class="aspect-[4/3] rounded-2xl overflow-hidden relative border border-tech-border mb-6">
+                            <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a1930?w=800" alt="Proj" class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 transition-all duration-700">
+                        </div>
+                        <h3 class="text-xl font-display font-bold mb-4 uppercase">億元級專案驗收</h3>
+                        <p class="text-xs text-tech-muted font-mono">DATASET_REF_2024</p>
+                    </div>
+                    <div class="tech-card p-5 group hover:-translate-y-2 transition-all">
+                        <div class="aspect-[4/3] rounded-2xl overflow-hidden relative border border-tech-border mb-6">
+                            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800" alt="Proj" class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 transition-all duration-700">
+                        </div>
+                        <h3 class="text-xl font-display font-bold mb-4 uppercase">STM32 系統實務</h3>
+                        <p class="text-xs text-tech-muted font-mono">DATASET_REF_2025</p>
+                    </div>
+                    <div class="tech-card p-5 group hover:-translate-y-2 transition-all">
+                        <div class="aspect-[4/3] rounded-2xl overflow-hidden relative border border-tech-border mb-6">
+                            <img src="https://images.unsplash.com/photo-1527977966376-1c8418f9f108?w=800" alt="Proj" class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 transition-all duration-700">
+                        </div>
+                        <h3 class="text-xl font-display font-bold mb-4 uppercase">無人機系統整合</h3>
+                        <p class="text-xs text-tech-muted font-mono">DATASET_REF_2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-32 px-6 reveal">
+            <div class="max-w-7xl mx-auto">
+                <div class="tech-card p-12 md:p-24 flex flex-col md:flex-row gap-20 relative overflow-hidden border-tech-primary/30 rounded-3xl">
+                    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-tech-primary to-transparent"></div>
+                    <div class="flex-1">
+                        <p class="text-tech-primary font-mono text-[10px] uppercase tracking-[0.4em] mb-6 font-bold">Initialize Communication</p>
+                        <h2 class="text-5xl font-display font-bold text-white mb-10 tracking-tight leading-none uppercase">建立通訊鏈路</h2>
+                        <div class="space-y-8">
+                            <div class="group">
+                                <p class="text-[8px] font-mono uppercase tracking-[0.3em] text-tech-primary mb-2">EMAIL_GATEWAY</p>
+                                <p class="text-lg font-display text-white border-b border-white/5 pb-1 inline-block font-bold">daniel12312366@gmail.com</p>
+                            </div>
+                            <div class="group">
+                                <p class="text-[8px] font-mono uppercase tracking-[0.3em] text-tech-primary mb-2">MOBILE_UPLINK</p>
+                                <p class="text-lg font-display text-white border-b border-white/5 pb-1 inline-block font-bold">0934-014-332</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <form class="space-y-6" onsubmit="event.preventDefault()">
+                            <input type="text" placeholder="User_Name" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 focus:border-tech-primary transition-all outline-none text-white">
+                            <input type="email" placeholder="Direct_Mail" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 focus:border-tech-primary transition-all outline-none text-white">
+                            <textarea placeholder="Payload_Data" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 h-40 focus:border-tech-primary transition-all outline-none resize-none text-white"></textarea>
+                            <button class="btn-tech w-full py-6 flex justify-center">EXECUTE_SEND</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 border-t border-tech-border relative overflow-hidden bg-tech-bg">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 relative z-10">
+            <div class="flex flex-col items-center md:items-start gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-tech-primary/10 border border-tech-primary/40 rounded-xl flex items-center justify-center text-tech-primary font-display font-bold text-sm">L</div>
+                    <span class="font-display font-bold text-2xl tracking-widest text-white uppercase italic">Lin.Lab</span>
+                </div>
+                <p class="text-tech-muted text-[10px] font-mono font-bold uppercase tracking-[0.3em]">H/W Validation x F/W Ops</p>
+            </div>
+            <div class="text-center">
+                <p class="text-tech-muted text-[8px] uppercase font-mono tracking-[0.4em] mb-3 opacity-40">System Core Version 1.0.4-Delta</p>
+                <p class="text-tech-muted text-xs font-light">© 2024 Lin Yen-Liang. Integrated Security Active.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-tech-bg/90', 'backdrop-blur-xl', 'border-b', 'border-tech-primary/20', 'py-4', 'shadow-[0_0_30px_rgba(0,242,255,0.1)]');
+                navbar.classList.remove('py-8');
+            } else {
+                navbar.classList.remove('bg-tech-bg/90', 'backdrop-blur-xl', 'border-b', 'border-tech-primary/20', 'py-4', 'shadow-[0_0_30px_rgba(0,242,255,0.1)]');
+                navbar.classList.add('py-8');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            });
+        });
+
+        // Intersection Observer for Scroll Reveal & Active Nav
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Smooth Active Link
+        const sections = document.querySelectorAll('section, header');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-tech-primary');
+                link.classList.add('text-tech-muted');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.remove('text-tech-muted');
+                    link.classList.add('text-tech-primary');
+                }
+            });
+        });
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
